@@ -3,6 +3,10 @@
   hosts: all
   become: yes
 
+  vars:
+   sourse_file: ./MyWebsite/
+   destin_file: /var/www/html/
+
   tasks:
 
    - name: Update and upgrade apt packages
@@ -12,13 +16,26 @@
        update_cache: yes
        cache_valid_time: 86400 #One day
 
-   - name: Install apache httpd  (state=present is optional)
+   - name: Install apache 
      ansible.builtin.apt:
        name: apache2
        state: present
-
+   
+   - name: Copy  files on the remote machine for editing
+     ansible.builtin.copy:
+       src: '{{ sourse_file }}'
+       dest: '{{ destin_file }}'
+       mode: '0555'
+     notify:
+         - Restart Apache
 
    - name: Enable service httpd, and not touch the state
      ansible.builtin.service:
        name: apache2
        enabled: yes
+
+  handlers:
+   - name: Restart Apache
+     ansible.builtin.service:
+       name: apache2
+       state: restarted
