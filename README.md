@@ -1,7 +1,7 @@
 # ansible
 ansible -i hosts.txt all -m ping
 
-#инфа о всех серверам
+#инфа о всех сервераx
 ansible  all -m setup
 
 
