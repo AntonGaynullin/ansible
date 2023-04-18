@@ -1,8 +1,18 @@
 # ansible
 ansible -i hosts.txt all -m ping
 
-#инфа о всех сервераx
+# инфа о всех сервераx
 ansible  all -m setup
+ansible-inventory --list
+# запуск шел
+ansible all -m shell -a "uptime"
+ansible all -m command -a "echo rer"
+
+
+
+
+
+
 
 
 
