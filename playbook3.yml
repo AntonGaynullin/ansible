@@ -1,0 +1,33 @@
+---
+- name: Block-When
+  hosts: all
+  become: yes
+
+  tasks:
+   - name: Remove file (delete file)
+     ansible.builtin.file:
+       path: somelog.txt
+       state: absent
+
+   - name: Print OS Distribution
+     ansible.builtin.debug:
+       msg: OS {{ ansible_distribution }}
+  
+   - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+     ansible.builtin.shell: echo "Name OS is {{ ansible_distribution }}" >> somelog.txt
+     when: ansible_distribution=="CentOS"
+   
+
+   - name: Show facts available on the system
+     ansible.builtin.debug:
+       var: ansible_facts
+
+   - name: Print ansible_facts
+     ansible.builtin.debug:
+       msg: Fact {{ ansible_facts.os_family }}
+
+
+   - name: Shut down Debian flavored systems
+     ansible.builtin.command: /sbin/shutdown -t now
+     when: ansible_facts['os_family'] == "Debian"
+

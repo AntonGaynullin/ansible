@@ -1,5 +1,6 @@
 [staging_servers]
 Staging  ansible_host=192.168.33.10 
+Centos  ansible_host=192.168.33.12
 [prod_servers]
 Prod  ansible_host=192.168.33.11
 
